@@ -19,11 +19,7 @@ def load_chunks(pdf_path: Path) -> list[str]:
 
 chunks = load_chunks(PDF_PATH)
 model = SentenceTransformer(MODEL_NAME)
-embeddings = model.encode(chunks, convert_to_numpy=True).astype(np.float32)
-faiss.normalize_L2(embeddings)
-
-index = faiss.IndexFlatIP(embeddings.shape[1])
-index.add(embeddings)
+index = faiss.read_index("syllabus.index")
 
 
 def search_pdf(query: str, k: int) -> str:
